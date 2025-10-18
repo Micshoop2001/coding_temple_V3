@@ -1,0 +1,16 @@
+{
+  "folders": [
+	{
+		"path": "../../week4/API_Pulls"
+	},
+	{
+		"path": ".."
+	},
+	{
+		"path": "../../week4/CodeQuest_Domination"
+	}
+],
+  "settings": {
+    "liveServer.settings.multiRootWorkspaceName": "week5"
+  }
+}
