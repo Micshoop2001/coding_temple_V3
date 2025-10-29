@@ -81,3 +81,26 @@ td {
   background-color: #f4f4f4;
   font-weight: bold;
 }
+
+.gitpresent {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 60px;
+}
+
+.ChuckNorris {
+  background-color: lightgray;
+  color: red;
+  font: bold;
+  font-size: large;
+  font-weight: bolder;
+}
+/*.ChuckNorris::before {
+  content: "";
+  color: white;
+  font: bold;
+  font-size: large;
+  font-weight: bolder;
+}*/

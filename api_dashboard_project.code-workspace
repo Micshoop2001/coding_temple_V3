@@ -1,0 +1,19 @@
+{
+  "folders": [
+	{
+		"path": "."
+	},
+	{
+		"path": "../../week3/JavaScript_functions"
+	},
+	{
+		"path": "../../../html_CSS/week3/HTML_CSS_Final_Project"
+	},
+	{
+		"path": "../../week4/CodeQuest_Domination"
+	}
+],
+  "settings": {
+    "liveServer.settings.multiRootWorkspaceName": "api_dashboard_project"
+  }
+}
