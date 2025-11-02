@@ -65,12 +65,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const hours = data.hourly.time;
     const temps = data.hourly.temperature_2m;
     const rain = data.hourly.rain;
+    const dateOnly = new Date(data.hourly.time[0]).toLocaleDateString();
 
-    let weathertable =
-      "<table><thead><tr><th>Time</th><th>Temperature (°F)</th><th>Rain (in)</th></tr></thead><tbody>";
+    let weathertable = `<h4>Weather for: ${dateOnly}</h4><br></br><table><thead><tr><th>Hour</th><th>Temperature (°F)</th><th>Rain (in)</th></tr></thead><tbody>`;
 
-    for (let w = 0; w < 12; w++) {
-      weathertable += `<tr><td>${hours[w]}</td><td>${temps[w]}</td><td>${rain[w]}</td></tr>`;
+    for (let w = 0; w < 24; w++) {
+      const hour = new Date(hours[w]).getHours();
+      weathertable += `<tr><td>${hour}</td><td>${temps[w]}</td><td>${rain[w]}</td></tr>`;
     }
 
     weathertable += "</tbody></table>";
@@ -144,7 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log(movie);
       movieDiv.innerHTML = `
       <div class="movie-card">
-      <h3>${movie.title}</h3>;
+      <h3>${movie.title}</h3>
       <img src="https://image.tmdb.org/t/p/w200${movie.poster_path}" alt="${movie.title}" />
       <p>${movie.release_date}</p>
       </div>
@@ -189,9 +190,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const finalnum = amountValue * conversionrates;
 
     const userDiv = document.createElement("div");
-    userDiv.innerHTML = `<div class="finalcurrency"><h3>Amount in ${toCurrency}: ${finalnum.toFixed(
+    userDiv.innerHTML = `<div class="finalcurrency"><h3>${amountValue} ${fromCurrency} = ${finalnum.toFixed(
       2
-    )}</h3></div>`;
+    )} ${toCurrency} </h3></div>`;
     currencyContainer.appendChild(userDiv);
   }
 
@@ -212,12 +213,12 @@ document.addEventListener("DOMContentLoaded", () => {
     //const nounDiv = document.createElement("div");
     let nounDiv = `
       <div class="noun-card">
-      <h3>${query}:</h3></div>`;
+      <h3>${query}:</h3>`;
     data.forEach((noun) => {
       console.log(noun);
       nounDiv += `<p>${noun.fl}: ${noun.shortdef}</p>`;
     });
-
+    nounDiv += "</div>";
     dictionaryContainer.innerHTML = nounDiv;
   }
 
