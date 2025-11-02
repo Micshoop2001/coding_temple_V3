@@ -13,10 +13,29 @@ body {
 
 .main-title {
   text-align: left;
-  margin-bottom: 2rem;
-  background-color: tan;
   font-size: 1.5em;
   padding: 10px;
+  color: darkgreen;
+}
+
+.header {
+  text-align: left;
+  margin-bottom: 2rem;
+  background-color: tan;
+  display: flex;
+  flex-direction: row;
+}
+
+.header p {
+  text-align: left;
+  font-size: 1em;
+  padding: 5px;
+  color: darkgreen;
+}
+
+.headerleft {
+  display: flex;
+  flex-direction: column;
 }
 
 .grid-container {

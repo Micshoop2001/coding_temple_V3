@@ -7,7 +7,15 @@
     <link rel="stylesheet" href="api_dashboard_project.css" />
   </head>
   <body>
-    <h1 class="main-title">JavaScript API Dashboard</h1>
+    <section class="header">
+      <div class="headerleft">
+        <h1 class="main-title">JavaScript API Dashboard</h1>
+        <p>By Michael Shoop</p>
+      </div>
+      <div class="headerright">
+        <img src="assets/IMG_0080.JPG" alt="Hero Image" />
+      </div>
+    </section>
     <div class="grid-container">
       <section class="grid-item">
         <h2>🐶 Random Dog</h2>
@@ -24,47 +32,44 @@
       </section>
 
       <section class="grid-item">
-        <h2>☀️ Weather Info</h2>
+        <h2>☀️ Weather for Hickory, NC</h2>
         <!-- done-->
         <button id="weather-api">Get Weather</button>
         <div class="output" id="weather-output"></div>
       </section>
 
       <section class="grid-item">
-        <h2>💱 Currency Rates</h2>
-        <button id="currency-api_old">Get Rates</button>
-        <div class="output_old" id="currency-output_old"></div>
+        <div class="grid-currency">
+          <h2>💱 New Currency Rates</h2>
+          <select id="currencySelectfrom">
+            <option value="">from...</option>
+          </select>
+          <select id="currencySelectto">
+            <option value="">to...</option>
+          </select>
+          <input type="text" id="currency-Amount" placeholder="amount" />
+          <button id="currency-api">Get Rates</button>
+          <div class="output" id="currency-output"></div>
+        </div>
       </section>
 
       <section class="grid-item">
-        <h2>💱 New Currency Rates</h2>
-        <select id="currencySelect">
-          <option value="">from...</option>
-        </select>
-        <select id="currencySelect">
-          <option value="">to...</option>
-        </select>
-        <button id="currency-api">Get Rates</button>
-        <div class="output" id="currency-output"></div>
-      </section>
-
-      <section class="grid-item">
-        <h2>🎮 Trending Movies</h2>
+        <h2>&#127916; Movie Lookup</h2>
         <!-- done-->
-        <input
-          type="text"
-          id="moviesearchInput"
-          placeholder="Search something..."
-        />
-        <button id="movies-api">Get Movies</button>
+        <input type="text" id="moviesearchInput" placeholder="What movie?..." />
+        <button id="movies-api">Lookup Movie</button>
         <div class="output" id="movies-output"></div>
       </section>
 
       <section class="grid-item">
         <h2>🧑‍💻 GitHub User</h2>
         <!-- done-->
-        <input type="text" id="searchInput" placeholder="Search something..." />
-        <button id="github-api">Get User</button>
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search for a repository..."
+        />
+        <button id="github-api">Git User</button>
         <div class="output" id="github-output"></div>
       </section>
 
@@ -76,9 +81,26 @@
       </section>
 
       <section class="grid-item">
-        <h2>📚 Public APIs</h2>
-        <button id="public-api">Show One</button>
-        <div class="output" id="publicapi-output"></div>
+        <h2>&#128214; Merriam-Webster Dictionary</h2>
+        <input
+          type="text"
+          id="DictionarysearchInput"
+          placeholder="Lookup a word..."
+        />
+        <button id="dictionary-api">Search</button>
+        <div class="output" id="dictionary-output"></div>
+      </section>
+
+      <section class="grid-item">
+        <h2>&#128214; Geoapify map</h2>
+        <input
+          type="text"
+          id="GeoapifyInput"
+          placeholder="Enter a City, State..."
+        />
+
+        <button id="Geoapify-api">Search</button>
+        <div class="output" id="Geoapify-output"></div>
       </section>
     </div>
 

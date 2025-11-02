@@ -2,23 +2,37 @@ document.addEventListener("DOMContentLoaded", () => {
   // Select buttons and containers
   const singleDogButton = document.getElementById("dog-api");
   const DogContainer = document.getElementById("dog-output");
+
   const singleCatButton = document.getElementById("cat-api");
   const CatContainer = document.getElementById("cat-output");
+
   const Weatherbutton = document.getElementById("weather-api");
   const WeatherContainer = document.getElementById("weather-output");
+
   const gitbutton = document.getElementById("github-api");
   const gitContainer = document.getElementById("github-output");
   const gitSearchInput = document.getElementById("searchInput");
+
   const jokebutton = document.getElementById("joke-api");
   const jokeContainer = document.getElementById("joke-output");
+
   const moviebutton = document.getElementById("movies-api");
   const movieContainer = document.getElementById("movies-output");
   const movieSearchInput = document.getElementById("moviesearchInput");
-  const publicContainer = document.getElementById("publicapi-output");
-  const publicbutton = document.getElementById("public-api");
+
   const currencyContainer = document.getElementById("currency-output");
   const currencybutton = document.getElementById("currency-api");
-  const currencySelect = document.getElementById("currencySelect");
+  const currencySelectfrom = document.getElementById("currencySelectfrom");
+  const currencySelectto = document.getElementById("currencySelectto");
+  const currencyamount = document.getElementById("currency-Amount");
+
+  const dictionaryContainer = document.getElementById("dictionary-output");
+  const dictionarybutton = document.getElementById("dictionary-api");
+  const dictionaryInput = document.getElementById("DictionarysearchInput");
+
+  const geoapifyContainer = document.getElementById("Geoapify-output");
+  const geoapifybutton = document.getElementById("Geoapify-api");
+  const geoapifyInput = document.getElementById("GeoapifyInput");
 
   async function getSingleDogImage() {
     const response = await fetch("https://dog.ceo/api/breeds/image/random");
@@ -139,41 +153,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  async function getpublicApi() {}
-
-  async function getcurrency_old() {
-    const response = await fetch(
-      "https://api.exchangerate-api.com/v4/latest/USD"
-    );
-
-    const data = await response.json();
-    console.log(data);
-    currencyContainer.innerHTML = "";
-
-    const usddata = data.rates.USD;
-    const eurdata = data.rates.EUR;
-    const amddata = data.rates.AMD;
-
-    const userDiv = document.createElement("div");
-
-    userDiv.innerHTML = `
-      <div class= "gitpresent">
-          <h3>${usddata}</h3>
-          <h3>${eurdata}</h3>
-          <h3>${amddata}</h3>
-      </div>  
-        `;
-    currencyContainer.appendChild(userDiv);
-  }
-
-  async function getcurrencyDropdown() {
+  async function getcurrencyDropdown(currencySelect, placeholder) {
     const response = await fetch(
       "https://api.exchangerate-api.com/v4/latest/USD"
     );
     const data = await response.json();
     const currencies = Object.keys(data.rates);
 
-    currencySelect.innerHTML = '<option value="">from...</option>';
+    currencySelect.innerHTML = `<option value="">${placeholder}</option>`;
 
     currencies.forEach((curr) => {
       const option = document.createElement("option");
@@ -182,26 +169,82 @@ document.addEventListener("DOMContentLoaded", () => {
       currencySelect.appendChild(option);
     });
   }
-
   async function getcurrency() {
-    const selectedCurrency = currencySelect.value;
-    if (!selectedCurrency) return;
+    const fromCurrency = currencySelectfrom.value;
+    const toCurrency = currencySelectto.value;
+    const amountValue = parseFloat(currencyamount.value);
+    if (!fromCurrency || !toCurrency || isNaN(amountValue)) {
+      currencyContainer.textContent =
+        "Please select both currencies and amount.";
+      return;
+    }
 
     const response = await fetch(
-      `https://api.exchangerate-api.com/v4/latest/${selectedCurrency}`
+      `https://api.exchangerate-api.com/v4/latest/${fromCurrency}`
     );
     const data = await response.json();
 
     currencyContainer.innerHTML = "";
-    const rates = data.rates;
+    const conversionrates = data.rates[toCurrency];
+    const finalnum = amountValue * conversionrates;
 
     const userDiv = document.createElement("div");
-    userDiv.innerHTML = `<div class="gitpresent"><h3>Rates for ${selectedCurrency}</h3>`;
-    for (const [curr, rate] of Object.entries(rates)) {
-      userDiv.innerHTML += `<p>${curr}: ${rate}</p>`;
-    }
-    userDiv.innerHTML += `</div>`;
+    userDiv.innerHTML = `<div class="finalcurrency"><h3>Amount in ${toCurrency}: ${finalnum.toFixed(
+      2
+    )}</h3></div>`;
     currencyContainer.appendChild(userDiv);
+  }
+
+  async function getdictionarylookup() {
+    const query = dictionaryInput.value.trim();
+    if (!query) return;
+    dictionaryContainer.innerHTML = "Searching...";
+    const accesstoken = "3ff49bc4-ad9d-4ee0-b484-70552cc7bf62";
+
+    const dicturl = `https://www.dictionaryapi.com/api/v3/references/collegiate/json/${encodeURIComponent(
+      query
+    )}?key=${encodeURIComponent(accesstoken)}`;
+
+    const response = await fetch(dicturl);
+    const data = await response.json();
+    console.log(data);
+
+    //const nounDiv = document.createElement("div");
+    let nounDiv = `
+      <div class="noun-card">
+      <h3>${query}:</h3></div>`;
+    data.forEach((noun) => {
+      console.log(noun);
+      nounDiv += `<p>${noun.fl}: ${noun.shortdef}</p>`;
+    });
+
+    dictionaryContainer.innerHTML = nounDiv;
+  }
+
+  async function getgeoapifymap() {
+    const address = geoapifyInput.value.trim();
+    if (!address) return;
+    geoapifyContainer.innerHTML = "Searching...";
+    const accesstoken = "b1a17874f3694168aa32bc53fb6b4e32";
+    const response = await fetch(
+      `https://api.geoapify.com/v1/geocode/search?text=${encodeURIComponent(
+        address
+      )}&apiKey=${encodeURIComponent(accesstoken)}`
+    );
+    const geocodingResult = await response.json();
+    console.log(geocodingResult);
+
+    const bbox = geocodingResult.features?.[0]?.bbox;
+    const geoapifyurl = `https://maps.geoapify.com/v1/staticmap?style=osm-bright&area=rect:${bbox.join(
+      ","
+    )}&width=500&height=500&scaleFactor=2&apiKey=${encodeURIComponent(
+      accesstoken
+    )}`;
+    const img = document.createElement("img");
+    img.src = geoapifyurl;
+    img.alt = "Geoapify Map";
+    geoapifyContainer.innerHTML = "";
+    geoapifyContainer.appendChild(img);
   }
 
   singleDogButton.addEventListener("click", getSingleDogImage);
@@ -210,9 +253,11 @@ document.addEventListener("DOMContentLoaded", () => {
   gitbutton.addEventListener("click", getgithub);
   jokebutton.addEventListener("click", getjoke);
   moviebutton.addEventListener("click", getmovies);
-  publicbutton.addEventListener("click", getpublicApi);
   currencybutton.addEventListener("click", getcurrency);
-  getcurrencyDropdown();
+  getcurrencyDropdown(currencySelectfrom, "from...");
+  getcurrencyDropdown(currencySelectto, "to...");
+  dictionarybutton.addEventListener("click", getdictionarylookup);
+  geoapifybutton.addEventListener("click", getgeoapifymap);
 });
 
 //API Read Access Token //This is also considered the bearer token//for movies
@@ -230,6 +275,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
 //API key//Geoapify
 //b1a17874f3694168aa32bc53fb6b4e32;
-
-//Free Forex/currencylayer API 12d827604b2d4438d4e5f5e375c48d33
-//
